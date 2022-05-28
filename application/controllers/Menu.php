@@ -19,7 +19,6 @@ class Menu extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('menu/index', $data);
-        $this->load->view('templates/footer');
     }
 
     public function showAllMenu()

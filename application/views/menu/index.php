@@ -12,17 +12,15 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
 
-
-
         <div class="row">
             <div class="col-xs-12">
-                <h3 class="header smaller lighter blue"><?= $title; ?></h3>
+                <!-- <h3 class="header smaller lighter blue">jQuery dataTables</h3> -->
 
                 <div class="clearfix">
                     <div class="pull-right tableTools-container"></div>
                 </div>
                 <div class="table-header">
-                    Data menu
+                    Data Menu
                 </div>
 
                 <!-- div.table-responsive -->
@@ -1717,7 +1715,6 @@
 
 
 
-
         <!-- ///////////////////////////////////////////////////// -->
         <!-- <div class="hidden-sm hidden-xs">
                                 <button type="button" class="sidebar-collapse btn btn-white btn-primary" data-target="#sidebar">
@@ -1738,16 +1735,8 @@
 
 
 
-<?php $this->load->view('templates/footer'); ?>
 
-<script src="<?= base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/jquery.dataTables.bootstrap.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/buttons.flash.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/buttons.html5.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/buttons.print.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/buttons.colVis.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
+<?php $this->load->view('templates/footer'); ?>
 
 <script>
 jQuery(function($) {
@@ -1790,10 +1779,20 @@ jQuery(function($) {
             }
         });
 
-    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
 
 });
 </script>
+
+
+
+
+
+
+
+
+
+
 
 
 
