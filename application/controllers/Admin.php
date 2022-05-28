@@ -16,19 +16,28 @@ class Admin extends CI_Controller
     public function index()
     {
 
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['total'] = $this->admin->total_employee();
-        $data['permanent'] = $this->admin->permanent();
+        // $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $total = $this->admin->total_employee();
+        $permanent = $this->admin->permanent();
         // $data['its_time'] = $this->admin->jatuh_tempo();
-        $data['grafik'] = $this->admin->get_grafiktahunan();
-
-        // $data['expire'] = $this->admin->contract_expire()->result_array();
-        $data['title'] = 'Dashboard';
-        $data['mn'] = 'Home';
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/home', $data);
-        // $this->load->view('templates/footer');
+        // $data['grafik'] = $this->admin->get_grafiktahunan();
+        $data = array(
+            'title' => 'Dashboard',
+            'mn' => 'Home',
+            'user' => $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array(),
+            'total' => $total,
+            'permanent' => $permanent,
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery.easypiechart.min.js',
+                'jquery.flot.min.js',
+                'jquery.flot.pie.min.js',
+                'jquery.flot.resize.min.js'
+            ),
+            'app_js' => array('dashboard.js'),
+            'page_content' => 'admin/v_dashboard'
+        );
+        $this->load->view('templates/v_main', $data);
     }
 
     public function skin()

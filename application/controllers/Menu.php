@@ -12,13 +12,31 @@ class Menu extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Menu Management';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['icons'] = $this->db->get('icons')->result_array();
-        $data['mn'] = 'Menu';
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('menu/index', $data);
+
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $icons = $this->db->get('icons')->result_array();
+
+        $data = array(
+            'title' => 'Menu Management',
+            'mn' => 'Menu',
+            'user' => $user,
+            'icons' => $icons,
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery.dataTables.min.js',
+                'jquery.dataTables.bootstrap.min.js',
+                'dataTables.buttons.min.js',
+                'buttons.flash.min.js',
+                'buttons.html5.min.js',
+                'buttons.print.min.js',
+                'buttons.colVis.min.js',
+                'dataTables.select.min.js'
+            ),
+            'app_js' => array('menu.js'),
+            'page_content' => 'menu/index'
+        );
+        $this->load->view('templates/v_main', $data);
     }
 
     public function showAllMenu()
