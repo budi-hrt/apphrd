@@ -14,7 +14,15 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
     <!-- page specific plugin styles -->
-
+    <?php
+    if (isset($list_css_plugin)) {
+        foreach ($list_css_plugin as $list_css) { ?>
+            <!-- JS plugin -->
+            <link rel="stylesheet" href="<?= base_url('assets/css/' . $list_css); ?>" />
+    <?php
+        }
+    }
+    ?>
 
     <!-- text fonts -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/fonts.googleapis.com.css" />
@@ -33,6 +41,10 @@
 		<![endif]-->
 
     <!-- inline styles related to this page -->
+
+
+
+
 
     <!-- ace settings handler -->
     <script src="<?= base_url(); ?>assets/js/ace-extra.min.js"></script>

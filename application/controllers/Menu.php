@@ -15,12 +15,19 @@ class Menu extends CI_Controller
 
         $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $icons = $this->db->get('icons')->result_array();
-
+        $menu = $this->db->get('user_menu')->result_array();
         $data = array(
             'title' => 'Menu Management',
             'mn' => 'Menu',
             'user' => $user,
             'icons' => $icons,
+            'menu' => $menu,
+
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css'
+            ),
 
             // Set plugin js
             'list_js_plugin' => array(
@@ -31,7 +38,10 @@ class Menu extends CI_Controller
                 'buttons.html5.min.js',
                 'buttons.print.min.js',
                 'buttons.colVis.min.js',
-                'dataTables.select.min.js'
+                'dataTables.select.min.js',
+                'bootbox.js',
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js'
             ),
             'app_js' => array('menu.js'),
             'page_content' => 'menu/index'
@@ -43,6 +53,37 @@ class Menu extends CI_Controller
     {
         $data = $this->menu->showAllMenu();
         echo json_encode($data);
+    }
+
+
+    public function create()
+    {
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $icons = $this->db->get('icons')->result_array();
+
+        $data = array(
+            'title' => 'Tambah Menu baru',
+            'mn' => 'Menu',
+            'user' => $user,
+            'icons' => $icons,
+
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css'
+            ),
+
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js'
+
+            ),
+            'app_js' => array('menu_create.js'),
+            'page_content' => 'menu/create'
+        );
+        $this->load->view('templates/v_main', $data);
     }
 
     public function addMenu()
@@ -58,15 +99,41 @@ class Menu extends CI_Controller
     }
 
     // getmenu
-    public function getmenu()
+    public function update()
     {
-        $result = $this->menu->getmenu();
-        echo json_encode($result);
+        $id = $this->uri->segment(3);
+        $menu = $this->menu->getmenu($id);
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $icons = $this->db->get('icons')->result_array();
+
+        $data = array(
+            'title' => 'Update menu',
+            'mn' => 'Menu',
+            'menu' => $menu,
+            'user' => $user,
+            'icons' => $icons,
+
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css'
+            ),
+
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js'
+
+            ),
+            'app_js' => array('menu_create.js'),
+            'page_content' => 'menu/update'
+        );
+        $this->load->view('templates/v_main', $data);
     }
 
     public function updatemenu()
     {
-
         $result = $this->menu->updatemenu();
         $msg['success'] = false;
         $msg['type'] = 'update';
@@ -93,21 +160,70 @@ class Menu extends CI_Controller
     // =====Submenu
     public function submenu()
     {
-        $data['title'] = 'Submenu Management';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->db->get('user_menu')->result_array();
-        $data['mn'] = 'Menu';
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('menu/submenu', $data);
-        $this->load->view('templates/footer');
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $submenu = $this->menu->getSubMenu()->result_array();
+        $data = array(
+            'title' => 'Subemenu',
+            'mn' => 'Menu',
+            'user' => $user,
+            'submenu' => $submenu,
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css'
+            ),
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery.dataTables.min.js',
+                'jquery.dataTables.bootstrap.min.js',
+                'dataTables.buttons.min.js',
+                'buttons.flash.min.js',
+                'buttons.html5.min.js',
+                'buttons.print.min.js',
+                'buttons.colVis.min.js',
+                'dataTables.select.min.js',
+                'bootbox.js',
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js'
+            ),
+            'app_js' => array('submenu.js'),
+            'page_content' => 'menu/submenu'
+        );
+        $this->load->view('templates/v_main', $data);
     }
-    // ShowSubmenu
-    public function showAllSubmenu()
+
+    public function create_sb()
     {
-        $data = $this->menu->getSubMenu();
-        echo json_encode($data);
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $menu = $this->db->get('user_menu')->result_array();
+        $data = array(
+            'title' => 'Tambah Submenu baru',
+            'mn' => 'Menu',
+            'user' => $user,
+            'menu' => $menu,
+
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css',
+                'chosen.min.css'
+            ),
+
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js',
+                'chosen.jquery.min.js'
+
+            ),
+            'app_js' => array('submenu_create.js'),
+            'page_content' => 'menu/create_sb'
+        );
+        $this->load->view('templates/v_main', $data);
     }
+
     // AddSubmenu
     public function addSubmenu()
     {
@@ -118,6 +234,43 @@ class Menu extends CI_Controller
             $msg['success'] = true;
         }
         echo json_encode($msg);
+    }
+
+
+    public function update_sb()
+    {
+        $id = $this->uri->segment(3);
+        $submenu = $this->menu->getsub($id);
+        $menu = $this->db->get('user_menu')->result_array();
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data = array(
+            'title' => 'Update submenu',
+            'mn' => 'Menu',
+            'id_submenu' => $id,
+            'sub' => $submenu,
+            'menu' => $menu,
+            'user' => $user,
+
+            // Set plugincss
+            'list_css_plugin' => array(
+                'jquery-ui.custom.min.css',
+                'jquery.gritter.min.css',
+                'chosen.min.css'
+            ),
+
+
+            // Set plugin js
+            'list_js_plugin' => array(
+                'jquery-ui.custom.min.js',
+                'jquery.gritter.min.js',
+                'chosen.jquery.min.js'
+
+            ),
+            'app_js' => array('submenu_create.js'),
+            'page_content' => 'menu/update_sb'
+        );
+        $this->load->view('templates/v_main', $data);
     }
 
     public function getsubmenu()

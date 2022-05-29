@@ -27,14 +27,13 @@ class Menu_model extends CI_Model
         }
     }
     // getmenu
-    public function getmenu()
+    public function getmenu($id)
     {
-        $id = $this->input->get('id');
         $this->db->where('id', $id);
         $query = $this->db->get('user_menu');
 
         if ($query->num_rows() > 0) {
-            return $query->row();
+            return $query->row_array();
         } else {
             return false;
         }
@@ -42,7 +41,7 @@ class Menu_model extends CI_Model
 
     public function updatemenu()
     {
-        $id = $this->input->post('idmenu');
+        $id = $this->input->post('menu_id');
         $field = array(
             'menu' => $this->input->post('menu'),
             'icon' => $this->input->post('icon')
@@ -72,20 +71,18 @@ class Menu_model extends CI_Model
     // ======Submenu
     public function getSubMenu()
     {
-        $query = "SELECT `user_sub_menu`.*, `user_menu`.`menu`
-                  FROM `user_sub_menu` JOIN `user_menu`
-                  ON `user_sub_menu`.`menu_id` = `user_menu`.`id`
-                  ORDER BY `user_sub_menu`.`menu_id`
+        $query = "SELECT `sub`.`id` as `sub_id`,`sub`.`menu_id`,`sub`.`title`,`sub`.`url`, `user_menu`.`menu` 
+        FROM `user_sub_menu` as`sub` JOIN `user_menu` ON `sub`.`menu_id` = `user_menu`.`id` ORDER BY `sub`.`menu_id`
                 ";
-        return $this->db->query($query)->result();
+        return $this->db->query($query);
     }
 
     public function addSubmenu()
     {
         $field = array(
             'menu_id' => $this->input->post('menu'),
-            'title' => $this->input->post('submenu'),
-            'url' => $this->input->post('submenuUrl'),
+            'title' => $this->input->post('title'),
+            'url' => $this->input->post('url'),
             'icon' => 'fa-user',
             'is_active' => 1
         );
@@ -98,14 +95,15 @@ class Menu_model extends CI_Model
     }
 
 
-    public function getsub()
+    public function getsub($id)
     {
-        $id = $this->input->get('id');
-        $this->db->where('id', $id);
-        $query = $this->db->get('user_sub_menu');
-
+        $this->db->select('s.id as sub_id, s.menu_id , s.title, s.url, m.menu');
+        $this->db->from('user_sub_menu s');
+        $this->db->join('user_menu m', 'm.id=s.menu_id');
+        $this->db->where('s.id', $id);
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            return $query->row();
+            return $query->row_array();
         } else {
             return false;
         }
@@ -115,11 +113,11 @@ class Menu_model extends CI_Model
 
     public function updatesubmenu()
     {
-        $id = $this->input->post('idsubmenu');
+        $id = $this->input->post('sb_id');
         $field = array(
             'menu_id' => $this->input->post('menu'),
-            'title' => $this->input->post('submenu'),
-            'url' => $this->input->post('submenuUrl')
+            'title' => $this->input->post('title'),
+            'url' => $this->input->post('url')
         );
         $this->db->where('id', $id);
         $this->db->update('user_sub_menu', $field);
