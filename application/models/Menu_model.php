@@ -97,7 +97,7 @@ class Menu_model extends CI_Model
 
     public function getsub($id)
     {
-        $this->db->select('s.id as sub_id, s.menu_id , s.title, s.url, m.menu');
+        $this->db->select('s.id as sub_id, s.menu_id , s.title, s.url,s.sc,s.sb_title,s.sub_menu_id,s.icon, m.menu');
         $this->db->from('user_sub_menu s');
         $this->db->join('user_menu m', 'm.id=s.menu_id');
         $this->db->where('s.id', $id);
@@ -109,6 +109,18 @@ class Menu_model extends CI_Model
         }
     }
 
+    public function get_sb_induk()
+    {
+        $this->db->where('sc', 'parent');
+        $query = $this->db->get('user_sub_menu');
+        return $query;
+        // if ($query->num_rows() > 0) {
+        //     return $query;
+        // } else {
+        //     return false;
+        // }
+    }
+
 
 
     public function updatesubmenu()
@@ -117,7 +129,10 @@ class Menu_model extends CI_Model
         $field = array(
             'menu_id' => $this->input->post('menu'),
             'title' => $this->input->post('title'),
-            'url' => $this->input->post('url')
+            'url' => $this->input->post('url'),
+            'sc' => $this->input->post('sc'),
+            'sub_menu_id' => $this->input->post('sb'),
+            'icon' => $this->input->post('icon'),
         );
         $this->db->where('id', $id);
         $this->db->update('user_sub_menu', $field);

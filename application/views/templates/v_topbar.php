@@ -1,8 +1,8 @@
 <div id="sidebar" class="sidebar      h-sidebar                navbar-collapse collapse          ace-save-state">
     <script type="text/javascript">
-    try {
-        ace.settings.loadState('sidebar')
-    } catch (e) {}
+        try {
+            ace.settings.loadState('sidebar')
+        } catch (e) {}
     </script>
 
     <div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -83,31 +83,31 @@
 
         <!-- LOOPING MENU -->
         <?php foreach ($menu as $m) : ?>
-        <?php if ($mn == $m['menu']) : ?>
-        <li class="active open hover">
-            <?php else : ?>
-        <li class="hover">
-            <?php endif; ?>
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa <?= $m['icon']; ?>"></i>
-                <span class="menu-text">
-                    <?= $m['menu']; ?>
-                </span>
+            <?php if ($mn == $m['menu']) : ?>
+                <li class="active open hover">
+                <?php else : ?>
+                <li class="hover">
+                <?php endif; ?>
+                <a href="javascript:void(0)" class="dropdown-toggle">
+                    <i class="menu-icon fa <?= $m['icon']; ?>"></i>
+                    <span class="menu-text">
+                        <?= $m['menu']; ?>
+                    </span>
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
 
-            <b class="arrow"></b>
-
-
-            <!-- SUB MENU -->
+                <b class="arrow"></b>
 
 
+                <!-- SUB MENU -->
 
-            <ul class="submenu">
-                <!-- ///////////////////////////////////// -->
-                <!-- SIAPKAN SUB-MENU SESUAI MENU -->
-                <?php
+
+
+                <ul class="submenu">
+                    <!-- ///////////////////////////////////// -->
+                    <!-- SIAPKAN SUB-MENU SESUAI MENU -->
+                    <?php
                     $menuId = $m['id'];
                     $querySubMenu = "SELECT `user_sub_menu`.`id`
                                FROM `user_sub_menu` JOIN `user_menu` 
@@ -119,8 +119,8 @@
                     $subMenu = $this->db->query($querySubMenu)->result_array();
 
                     ?>
-                <?php foreach ($subMenu as $sm) : ?>
-                <?php
+                    <?php foreach ($subMenu as $sm) : ?>
+                        <?php
 
                         $smId = $sm['id'];
                         $userId = $user['id'];
@@ -136,86 +136,85 @@
                         ";
                         $accessSubMenu = $this->db->query($queryUserSubMenu)->result_array();
                         ?>
-                <?php foreach ($accessSubMenu as $asm) : ?>
-                <?php if ($asm['sc'] == 'single') : ?>
-                <li class="hover">
-                    <a href="<?= base_url($asm['url']); ?>">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        <?= $asm['title']; ?>
-                    </a>
+                        <?php foreach ($accessSubMenu as $asm) : ?>
+                            <?php if ($asm['sc'] == 'single') : ?>
+                                <li class="hover">
+                                    <a href="<?= base_url($asm['url']); ?>">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        <?= $asm['title']; ?>
+                                    </a>
 
-                    <b class="arrow"></b>
-                </li>
-                <?php elseif ($asm['sc'] == 'induk') : ?>
-                <!-- /////////////// -->
+                                    <b class="arrow"></b>
+                                </li>
+                            <?php elseif ($asm['sc'] == 'parent') : ?>
+                                <!-- /////////////// -->
 
-                <li class="hover">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        <?= $asm['title']; ?>
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
+                                <li class="hover">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        <?= $asm['title']; ?>
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
 
-                    <b class="arrow"></b>
+                                    <b class="arrow"></b>
 
-                    <ul class="submenu">
-                        <?php
-                                        $query_induk = "SELECT * FROM `user_sub_menu` WHERE `sc`='induk'";
+                                    <ul class="submenu">
+                                        <?php
+                                        $query_induk = "SELECT * FROM `user_sub_menu` WHERE `sc`='parent'";
                                         $id_induk = $this->db->query($query_induk)->result_array();
 
                                         ?>
-                        <?php foreach ($id_induk as $induk_id) : ?>
+                                        <?php foreach ($id_induk as $induk_id) : ?>
 
 
-                        <!-- Start Queri cild menu -->
-                        <?php
+                                            <!-- Start Queri cild menu -->
+                                            <?php
                                             $sc = 'cild';
                                             $induk = $induk_id['id'];
                                             $smId = $sm['id'];
                                             $userId = $user['id'];
                                             $queryUserCildSubMenu = "
-                    SELECT *
-                    FROM `user_access_sub_menu`
+                    SELECT * ,`user_sub_menu`.`icon` AS `sub_icon`
+                    FROM `user_access_sub_menu` 
                     JOIN `user_sub_menu`
                     ON `user_access_sub_menu`.`submenu_id`=`user_sub_menu`.`id`
                     JOIN `user_menu`
                     ON `user_access_sub_menu`.`menu_id`=`user_menu`.`id`
-                   
                     WHERE `user_access_sub_menu`.`menu_id`=$menuId
-                    AND `user_access_sub_menu`.`user_id`=1
+                    AND `user_access_sub_menu`.`user_id`=$userId
                     AND `user_sub_menu`.`sub_menu_id`= $induk
-			AND `user_sub_menu`.`sc`= 'cild'
+			AND `user_sub_menu`.`sc`= 'child'
                     ";
                                             $accessCildSubMenu = $this->db->query($queryUserCildSubMenu)->result_array();
                                             ?>
 
 
-                        <!-- Ahir Query cild menu -->
+                                            <!-- Ahir Query cild menu -->
 
-                        <!-- Start looping cild submenu -->
+                                            <!-- Start looping cild submenu -->
 
-                        <?php foreach ($accessCildSubMenu as $acsm) : ?>
-                        <li class="hover">
-                            <a href="<?= base_url($acsm['url']); ?>">
-                                <i class="menu-icon fa fa-leaf green"></i>
-                                <?= $acsm['title']; ?>
-                            </a>
+                                            <?php foreach ($accessCildSubMenu as $acsm) : ?>
+                                                <li class="hover">
+                                                    <a href="<?= base_url($acsm['url']); ?>">
+                                                        <i class="menu-icon fa <?= $acsm['sub_icon']; ?> green"></i>
+                                                        <?= $acsm['title']; ?>
+                                                    </a>
 
-                            <b class="arrow"></b>
-                        </li>
+                                                    <b class="arrow"></b>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+
                         <?php endforeach; ?>
-                        <?php endforeach; ?>
-
-                    </ul>
+                    <?php endforeach; ?>
+                </ul>
                 </li>
-                <?php endif; ?>
 
-                <?php endforeach; ?>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-
-        <?php endforeach; ?>
+            <?php endforeach; ?>
 
 
 

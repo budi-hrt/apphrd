@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
+        <div class="col-xs-12 col-sm-8 widget-container-col" id="widget-container-col-2">
             <div class="widget-box widget-color-blue" id="widget-box-2">
                 <div class="widget-header">
                     <h5 class="widget-title bigger lighter">
@@ -19,9 +19,9 @@
                             <input type="hidden" name="sb_id" id="sb_id" value="<?= $id_submenu; ?>">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="kode"> Menu </label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <select class="chosen-select form-control" name="menu" id="menu" data-placeholder="Choose a State...">
-                                        <option value="<?= $sub['menu_id']; ?>"><?= $sub['menu']; ?></option>
+                                        <option value=""></option>
                                         <?php foreach ($menu as $m) : ?>
                                             <option value="<?= $m['id']; ?>"><?= $m['menu']; ?></option>
                                         <?php endforeach; ?>
@@ -29,18 +29,48 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="nama">Title</label>
+                                <label class="col-sm-3 control-label no-padding-right" for="title">Title</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="title" name="title" value="<?= $sub['title']; ?>" class=" col-xs-10 col-sm-5" />
+                                    <input type="text" id="title" name="title" value="" class=" col-xs-10 col-sm-5" />
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="icon">url </label>
+                                <label class="col-sm-3 control-label no-padding-right" for="status">Posisi</label>
+                                <div class="col-sm-4">
+                                    <select class="chosen-select form-control" name="sc" id="sc" data-placeholder="Choose a State...">
+                                        <option value=""></option>
+                                        <option value="single">Single menu</option>
+                                        <option value="parent">Parent menu</option>
+                                        <option value="child">Child menu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group induk">
+                                <label class="col-sm-3 control-label no-padding-right" for="nama">Parent menu</label>
+                                <div class="col-sm-4">
+                                    <select class="chosen-select form-control" name="sb" id="sb" data-placeholder="Choose a State...">
+                                        <option value=""></option>
+                                        <?php foreach ($sb_induk as $s) : ?>
+                                            <option value="<?= $s['id']; ?>"><?= $s['title']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="url">url </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="url" name="url" value="<?= $sub['url']; ?>" class="col-xs-10 col-sm-5" />
+                                    <input type="text" id="url" name="url" value="" class="col-xs-10 col-sm-5" />
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="icon">Icon </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" id="icon" name="icon" value="" class="col-xs-10 col-sm-5" />
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -78,7 +108,42 @@
         </div><!-- /.span -->
 
 
+        <!-- icon -->
+        <div class="col-sm-4 widget-container-col" id="widget-container-col-11">
+            <div class="widget-box widget-color-dark" id="widget-box-11">
+                <div class="widget-header">
+                    <i class="fa fa-flag"></i>
+                    <h6 class="widget-title">Data icon</h6>
+                    <div class="widget-toolbar">
+                        <h6 class=" lighter">
+                            369 Scalable FontAwesome Icons
+                            <small>
+                                <a class="text-success" href="http://fontawesome.io/icons/" target="_blank">
+                                    (see all icons
+                                    <i class="ace-icon fa fa-external-link"></i>)
+                                </a>
+                            </small>
+                        </h6>
+                    </div>
+                </div>
 
+                <div class="widget-body">
+                    <div class="widget-main padding-4 scrollable" data-size="310">
+                        <div class="content">
+                            <ul class="list-unstyled">
+                                <?php foreach ($icons as $icon) : ?>
+                                    <li>
+                                        <i class="ace-icon fa <?= $icon['icon']; ?>"></i>
+                                        <?= $icon['icon']; ?>
+                                    </li>
+                                <?php endforeach; ?>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

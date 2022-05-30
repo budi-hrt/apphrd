@@ -197,10 +197,12 @@ class Menu extends CI_Controller
     {
         $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $menu = $this->db->get('user_menu')->result_array();
+        $icons = $this->db->get('icons')->result_array();
         $data = array(
             'title' => 'Tambah Submenu baru',
             'mn' => 'Menu',
             'user' => $user,
+            'icons' => $icons,
             'menu' => $menu,
 
             // Set plugincss
@@ -242,14 +244,17 @@ class Menu extends CI_Controller
         $id = $this->uri->segment(3);
         $submenu = $this->menu->getsub($id);
         $menu = $this->db->get('user_menu')->result_array();
+        $sb_induk = $this->menu->get_sb_induk()->result_array();
+        $icons = $this->db->get('icons')->result_array();
         $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data = array(
             'title' => 'Update submenu',
             'mn' => 'Menu',
             'id_submenu' => $id,
-            'sub' => $submenu,
             'menu' => $menu,
+            'sb_induk' => $sb_induk,
+            'icons' => $icons,
             'user' => $user,
 
             // Set plugincss
@@ -267,7 +272,7 @@ class Menu extends CI_Controller
                 'chosen.jquery.min.js'
 
             ),
-            'app_js' => array('submenu_create.js'),
+            'app_js' => array('submenu_update.js'),
             'page_content' => 'menu/update_sb'
         );
         $this->load->view('templates/v_main', $data);
@@ -275,7 +280,8 @@ class Menu extends CI_Controller
 
     public function getsubmenu()
     {
-        $result = $this->menu->getsub();
+        $id = $this->input->get('id');
+        $result = $this->menu->getsub($id);
         echo json_encode($result);
     }
 
