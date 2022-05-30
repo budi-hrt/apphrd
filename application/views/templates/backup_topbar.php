@@ -105,10 +105,11 @@
 
 
             <ul class="submenu">
-                <!-- ///////////////////////////////////// -->
                 <!-- SIAPKAN SUB-MENU SESUAI MENU -->
                 <?php
                     $menuId = $m['id'];
+
+
                     $querySubMenu = "SELECT `user_sub_menu`.`id`
                                FROM `user_sub_menu` JOIN `user_menu` 
                                  ON `user_sub_menu`.`menu_id` = `user_menu`.`id`
@@ -123,6 +124,9 @@
                 <?php
 
                         $smId = $sm['id'];
+
+
+
                         $userId = $user['id'];
                         $queryUserSubMenu = "SELECT *
                         FROM `user_access_sub_menu`
@@ -137,7 +141,6 @@
                         $accessSubMenu = $this->db->query($queryUserSubMenu)->result_array();
                         ?>
                 <?php foreach ($accessSubMenu as $asm) : ?>
-                <?php if ($asm['sc'] == 'single') : ?>
                 <li class="hover">
                     <a href="<?= base_url($asm['url']); ?>">
                         <i class="menu-icon fa fa-caret-right"></i>
@@ -146,70 +149,6 @@
 
                     <b class="arrow"></b>
                 </li>
-                <?php elseif ($asm['sc'] == 'induk') : ?>
-                <!-- /////////////// -->
-
-                <li class="hover">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        <?= $asm['title']; ?>
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <?php
-                                        $query_induk = "SELECT * FROM `user_sub_menu` WHERE `sc`='induk'";
-                                        $id_induk = $this->db->query($query_induk)->result_array();
-
-                                        ?>
-                        <?php foreach ($id_induk as $induk_id) : ?>
-
-
-                        <!-- Start Queri cild menu -->
-                        <?php
-                                            $sc = 'cild';
-                                            $induk = $induk_id['id'];
-                                            $smId = $sm['id'];
-                                            $userId = $user['id'];
-                                            $queryUserCildSubMenu = "
-                    SELECT *
-                    FROM `user_access_sub_menu`
-                    JOIN `user_sub_menu`
-                    ON `user_access_sub_menu`.`submenu_id`=`user_sub_menu`.`id`
-                    JOIN `user_menu`
-                    ON `user_access_sub_menu`.`menu_id`=`user_menu`.`id`
-                   
-                    WHERE `user_access_sub_menu`.`menu_id`=$menuId
-                    AND `user_access_sub_menu`.`user_id`=1
-                    AND `user_sub_menu`.`sub_menu_id`= $induk
-			AND `user_sub_menu`.`sc`= 'cild'
-                    ";
-                                            $accessCildSubMenu = $this->db->query($queryUserCildSubMenu)->result_array();
-                                            ?>
-
-
-                        <!-- Ahir Query cild menu -->
-
-                        <!-- Start looping cild submenu -->
-
-                        <?php foreach ($accessCildSubMenu as $acsm) : ?>
-                        <li class="hover">
-                            <a href="<?= base_url($acsm['url']); ?>">
-                                <i class="menu-icon fa fa-leaf green"></i>
-                                <?= $acsm['title']; ?>
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                        <?php endforeach; ?>
-                        <?php endforeach; ?>
-
-                    </ul>
-                </li>
-                <?php endif; ?>
-
                 <?php endforeach; ?>
                 <?php endforeach; ?>
             </ul>

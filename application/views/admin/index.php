@@ -437,12 +437,10 @@
                         <span class="menu-text">
                             UI &amp; Elements
                         </span>
-
                         <b class="arrow fa fa-angle-down"></b>
                     </a>
 
                     <b class="arrow"></b>
-
                     <ul class="submenu">
                         <li class="active open hover">
                             <a href="#" class="dropdown-toggle">
@@ -1103,7 +1101,7 @@
 
                 var scroll = $window.scrollTop();
                 scroll = parseInt(scroll /
-                4); //move the menu up 1px for every 4px of document scrolling
+                    4); //move the menu up 1px for every 4px of document scrolling
                 if (scroll > 17) scroll = 17;
 
 
